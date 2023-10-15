@@ -24,18 +24,18 @@ library(modelr)
 
 I denne oppgaven skal vi dykke dypere inn i forholdet mellom sivilstatus og inntekt.
 Vi skal undersøke om det foreligger forskjeller i inntektsnivået mellom gifte og ugifte personer, og om disse forskjellene varierer basert på kjønn.
-Videre vil vi utforske sammenhengen mellom utdanningsnivå og sivilstatus, og om det er ulik premie eller straff i form av inntekt for gifte menn og kvinner avhengig av deres utdanningsbakgrunn.
-Vi skal også se nærmere på forholdet mellom kroppsmasseindeks (BMI) og sivilstatus.
+Videre vil vi utforske sammenhengen mellom utdanningsnivå og sivilstatus, og om det er ulik premie eller straff for gifte menn og kvinner avhengig av deres utdanningsbakgrunn.
+Vi skal også se nærmere på sammenhengen mellom kroppsmasseindeks (BMI) og sivilstatus.
 Vi skal forsøke å finne svar på dette ved hjelp av datasettet *heights*, som er en del av pakken modelr [@wickham2023].
 
 ## Litteraturgjennomgang
 
-Forskning indikerer at den gjennomsnittlige mannlige arbeidstakeren tjener mer enn den gjennomsnittlige kvinnelige arbeidstakeren [@vandenbroucke2018] .
+Forskning antyder at den gjennomsnittlige mannlige arbeidstakeren tjener mer enn den gjennomsnittlige kvinnelige arbeidstakeren [@vandenbroucke2018] .
 Lønnsforskjellen er mindre markant tidlig i livet og forskjellen i lønn mellom kvinner og menn vokser med alderen.
 I følge @vandenbroucke2018 er en mulig forklaring på dette at yngre kvinner ofte gifter seg, får barn og derfor trekker seg mer bort fra arbeidslivet.
 Noe som vil resultere i at kvinner taper terreng i forhold til mennene.
 
-Forskning tyder også på at sivilstatus spiller en viktig rolle i inntektsgapet mellom menn og kvinner.
+Sivilstatus spiller en viktig rolle i inntektsgapet mellom menn og kvinner.
 @on-the-economy-blog2020 skriver om Vandenbroucke og Peake som i sin undersøkelse av hvordan sivilstatus påvirker inntekt, observerte at gifte menn var den gruppen med høyest inntekt.
 De undersøkte videre om den høye inntekten hos gifte menn er et resultat av lengre arbeidstimer.
 I sin analyse kunne forfatterne bekrefte at gifte menn jobbet lengst, men at de også hadde en betydelig høyere timelønn enn de andre gruppene [@on-the-economy-blog2020]
@@ -43,7 +43,7 @@ I sin analyse kunne forfatterne bekrefte at gifte menn jobbet lengst, men at de 
 Et interessant funn om sammenhengen mellom inntekt og sivilstatus, er at blant ugifte arbeidtakere er lønnsforskjellen minimal, uavhengig av kjønn.
 I tillegg ser det ut til at gifte og ugifte kvinner har nokså tilsvarende lønn [@vandenbroucke2018].
 Sistnevnte er overraskende med tanke på at gifte kvinner kan ha større sannsynlighet for å få barn enn ugifte kvinner.
-Dette stemmer ikke overens med forklaringen om at kjønnsforskjellene skyldes at kvinner får barn tidligere i livet og taper terreng i forhold til mennene.
+Dette stemmer ikke overens med den mulige forklaringen om at kjønnsforskjellene skyldes at kvinner trekker seg bort fra arbeidslivet når de får barn og av den grunn taper terreng i forhold til mennene [@vandenbroucke2018].
 
 Det er tydelig at gifte menn tjener mer enn både gifte og ugifte kvinner, og gifte menn har høyere lønn enn ugifte menn.
 Dette betyr ikke nødvendigvis at det å være gift øker en manns lønn.
@@ -51,11 +51,14 @@ Det kan være at menn med høyere lønn er mer sannsynlig til å gifte seg og de
 
 ## Exploratory Data Analysis (EDA)
 
+Som tidligere nevnt, skal vi bruke datasettet *heights* fra pakken modelr*,* til å undersøke sammenhengen mellom sivilstatus og inntekt.
+Dette er et datasett med originalt 7006 observasjoner fordelt på 8 variabler.
+
 ```{r}
 # Leser inn heights datasettet og gir det navnet "hoyde"
 hoyde <- modelr::heights
 
-# Lager en "bmi" variabel og forenkler "marital" og "education" variablene
+# Legger til tre variabler i datsettet: "bmi", "married", "edu_fac" 
 hoyde <- hoyde %>% 
   mutate(
     bmi = weight * 0.4536/(height * 2.54/100)^2,
@@ -73,7 +76,7 @@ hoyde <- hoyde %>%
   ) |> 
   # Reorganiserer data slik at de fire faktor-variablerne kommer lengst til høyre
   select(income:age, education:bmi, everything()) |>
-  # Dropper "marital" og "education" siden disse ikke skal brukes
+  # Dropper variablene "marital" og "education"
   select(-education, -marital)
 
 # Deler hoyde inn i tre subsets
@@ -88,10 +91,15 @@ hoydeHighInc <- hoyde |>
   filter(income == 343830)
 ```
 
-Vi skal konsentrere oss om subsetet for normal inntekt (hoydeNormInc).
-Dette datasettet inneholder 5123 observasjoner fordelt på 9 variabler: income, height, weight, age, afqt, bmi, sex, married, edu_fac.
+Vi skal videre i oppgaven konsentrere oss om datasettet for normal inntekt (hoydeNormInc).
+Dette subsettet inneholder 5123 observasjoner fordelt på 9 variabler: "income", "height", "weight", "age", "afqt", "bmi", "sex", "married" og "edu_fac".
 
-**Sammenhengen mellom gift/ugift og inntekt**
+### Sammenhengen mellom sivilstatus og inntekt
+
+Vi skal først se på sammenhengen mellom sivilstatus og inntekt i et diagram .
+Dette visualiseres ved bruk av variablene "married" og "income".
+Variabelen "married" er en faktor med to nivå : "married" og "not married".
+"Not married" inkluderer personer som både er singel, separert, skilt eller enke/enkemann, mens "married" inkluderer kun de personene som er gift.
 
 ```{r}
 hoydeNormInc  |> 
@@ -105,23 +113,51 @@ hoydeNormInc  |>
     size = 1,
     alpha = 0.35
     ) +
-  # NB! får ikke opp regresjonslinjen i diagrammet
-  geom_smooth(
-    formula = y ~ x,
-    method = "lm",
-    colour = "blue",
-    lwd = 0.75,
-    se = FALSE
-    )
+   ggtitle(
+     "Figur 1: Sivilstatus og inntekt" 
+    )  
 ```
 
--   Er det forskjell menn/kvinner?
+Ut i fra figur 1 ser det ut til at gifte personer tjener mer enn personer som ikke er gift.
 
--   Varierer premie/straff for gift mann/kvinne med utdannelse?
+For å få en bedre helhetsforståelse, vil vi videre undersøke om det kan være andre bakenforliggende variabler som påvirker dette resultatet.
+Vi ser først om det er noen forskjell mellom menn og kvinner når det kommer til sivilstatus og inntekt.
+
+```{r}
+hoydeNormInc  |> 
+  ggplot(
+  mapping = aes(
+    x = married,
+    y = income
+    )
+  ) + 
+  geom_jitter(
+    size = 1,
+    alpha = 0.35
+    ) +
+   facet_wrap(
+     ~ sex
+     ) +
+   ggtitle(
+     "Figur 2: Sivilstatus og inntekt - fordelt på kjønn" 
+    ) 
+ 
+```
+
+Figur 2 viser liten forskjell i inntekt mellom gifte og ugifte kvinner.
+Det ser ut til at kvinner har nokså lik lønn uavhenig av sivilstatus.
+Det kommer derimot tydlig frem fra figuren at gifte menn har en betydelig høyere lønn enn ugifte menn.
+Blant ugifte arbeidtakere er lønnsforskjellen mellom kjønnene minimal.
+
+### Sivilstatus og utdanning
 
 -   Er det noen sammenheng mellom gift/ugift og utdannelse?
 
--   Er det noen sammenheng mellom bmi og gift/ugift
+-   Varierer premie/straff for gift mann/kvinne med utdannelse?
+
+### Sivilstatus og BMI
+
+-   Er det noen sammenheng mellom bmi og gift/ugift?
 
 ## Konklusjon
 
