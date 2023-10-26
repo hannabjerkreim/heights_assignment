@@ -94,6 +94,13 @@ hoydeHighInc <- hoyde |>
 Vi skal videre i oppgaven konsentrere oss om datasettet for normal inntekt (hoydeNormInc).
 Dette subsettet inneholder 5123 observasjoner fordelt på 9 variabler: "income", "height", "weight", "age", "afqt", "bmi", "sex", "married" og "edu_fac".
 
+Beskrivende statistikk for datasettet hoydeNormInc
+
+```{r}
+hoydeNormInc |>
+  st()
+```
+
 ### Sammenhengen mellom sivilstatus og inntekt
 
 Vi skal først se på sammenhengen mellom sivilstatus og inntekt i et diagram .
