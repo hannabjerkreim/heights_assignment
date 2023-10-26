@@ -151,13 +151,55 @@ Blant ugifte arbeidtakere er lønnsforskjellen mellom kjønnene minimal.
 
 ### Sivilstatus og utdanning
 
+```{r}
+hoydeNormInc  |> 
+  ggplot(
+  mapping = aes(
+    x = married,
+    y = edu_fac
+    )
+  ) + 
+  geom_jitter(
+    size = 1,
+    alpha = 0.35
+    ) +
+   facet_wrap(
+     ~ sex
+     ) +
+   ggtitle(
+     "Figur 2: Sivilstatus og utdanning - fordelt på kjønn" 
+    ) 
+```
+
+-   Histogram?
+
+-   
+
 -   Er det noen sammenheng mellom gift/ugift og utdannelse?
 
 -   Varierer premie/straff for gift mann/kvinne med utdannelse?
 
 ### Sivilstatus og BMI
 
--   Er det noen sammenheng mellom bmi og gift/ugift?
+```{r}
+hoydeNormInc  |> 
+  ggplot(
+  mapping = aes(
+    x = married,
+    y = bmi
+    )
+  ) + 
+  geom_jitter(
+    size = 1,
+    alpha = 0.35
+    ) +
+   facet_wrap(
+     ~ sex
+     ) +
+   ggtitle(
+     "Figur 2: Sivilstatus og BMI - fordelt på kjønn" 
+    ) 
+```
 
 ## Konklusjon
 
