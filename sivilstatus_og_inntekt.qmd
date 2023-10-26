@@ -18,6 +18,7 @@ Gruppe 4: Hanna Sundal Bjerkreim & Elvar Solheim**
 library(tidyverse)
 library(vtable)
 library(modelr)
+library(ggplot2)
 ```
 
 ## Innledning
@@ -174,15 +175,15 @@ hoydeNormInc  |>
      ~ sex
      ) +
    ggtitle(
-     "Figur 2: Sivilstatus og utdanning - fordelt på kjønn" 
+     "Figur 3: Sivilstatus og utdanning - fordelt på kjønn" 
     ) 
 ```
 
--   Histogram?
+Figur 3 viser forskjellene mellom gifte og ugifte kvinner og menn.
+Blant annet kan vi se at det virker som om gifte menn generelt har høyere utdanning enn de som er ugifte.
+Dennen tydlige forskjellen ser man ikke hos kvinnene og det ser ut til at utdanningsnivået er nokså likt, selv om noen flere gifte kvinner har høyskoleutdanning.
 
 -   
-
--   Er det noen sammenheng mellom gift/ugift og utdannelse?
 
 -   Varierer premie/straff for gift mann/kvinne med utdannelse?
 
@@ -204,10 +205,33 @@ hoydeNormInc  |>
      ~ sex
      ) +
    ggtitle(
-     "Figur 2: Sivilstatus og BMI - fordelt på kjønn" 
+     "Figur 4: Sivilstatus og BMI - fordelt på kjønn" 
     ) 
 ```
 
+I Figur 4 kan vi se hvordan sivilstatus påvirker BMI hos både menn og kvinner.
+Det ser ut til at gifte menn har litt høyere BMI enn de som er ugifte, men forskjellene er ikke veldig store.
+På den annen side ser det ut til at ugifte kvinner har litt høyere BMI enn de gifte kvinnene, men også her er forskjellene ganske små.
+
 ## Konklusjon
 
-\
+Basert på analysen og funnene presentert ovenfor, kan vi trekke følgende konklusjoner:
+
+-   Sivilstatus spiller en betydelig rolle når det gjelder inntektsgapet mellom gifte og ugifte personer.
+    Gifte personer, spesielt gifte menn, har en tendens til å ha høyere inntekt enn deres ugifte motparter.
+    Dette indikerer at det er en sammenheng mellom å være gift og økt inntekt.
+
+-   Kjønn spiller også en rolle i denne sammenhengen, da gifte menn har en markant høyere inntekt enn gifte kvinner.
+    Imidlertid er inntektsforskjellene mellom gifte og ugifte kvinner mindre uttalt.
+    Dette antyder at kjønn kan påvirke måten sivilstatus påvirker inntekt på, med gifte menn som ser ut til å dra større fordel av ekteskapet i inntektssammenheng.
+
+-   Utdanning spiller en rolle når det gjelder inntektsforskjeller basert på sivilstatus.
+    Gifte menn har generelt høyere utdanning enn ugifte menn.
+    Samtidig ser vi ingen markante utdanningsforskjeller mellom gifte og ugifte kvinner.
+    Dette tyder på at utdanning kan være en av de underliggende faktorene som bidrar til inntektsforskjellene mellom gifte og ugifte personer.
+
+-   Når vi ser på kroppsmasseindeks (BMI), finner vi at gifte menn har noe høyere BMI enn ugifte menn, mens ugifte kvinner har litt høyere BMI enn gifte kvinner.
+    Imidlertid er forskjellene i BMI relativt små, og det kan være flere faktorer som påvirker disse funnene.
+
+Samlet sett gir analysen oss en dypere forståelse av hvordan sivilstatus, kjønn og utdanning kan påvirke inntekt.
+Det ser ut til at utdanning spiller en rolle i inntektsforskjellene, mens BMI ikke har en betydelig påvirkning.
