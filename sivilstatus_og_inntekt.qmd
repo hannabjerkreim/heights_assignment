@@ -105,7 +105,7 @@ hoydeNormInc |>
 
 ### Sammenhengen mellom sivilstatus og inntekt
 
-Vi skal først se på sammenhengen mellom sivilstatus og inntekt i et diagram .
+Vi skal først se på sammenhengen mellom sivilstatus og inntekt i et diagram.
 Dette visualiseres ved bruk av variablene "married" og "income".
 Variabelen "married" er en faktor med to nivå : "married" og "not married".
 "Not married" inkluderer personer som både er singel, separert, skilt eller enke/enkemann, mens "married" inkluderer kun de personene som er gift.
@@ -156,9 +156,12 @@ Figur 2 viser liten forskjell i inntekt mellom gifte og ugifte kvinner.
 Det ser ut til at kvinner har nokså lik lønn uavhenig av sivilstatus.
 Det kommer derimot tydlig frem fra figuren at gifte menn har en betydelig høyere lønn enn ugifte menn.
 Blant ugifte arbeidtakere er lønnsforskjellen mellom kjønnene minimal.
+Det er de gifte mennene som skiller seg ut.
 Disse funnene stemmer godt overens med studien til @vandenbroucke2018 som ble nevnt i litteraturgjennomgangen.
 
 ### Sivilstatus og utdanning
+
+Videre skal vi se på sammenhengen mellom sivilstatus og utdanning.
 
 ```{r}
 hoydeNormInc  |> 
@@ -227,6 +230,8 @@ Sammenligner vi gifte og ugifte kvinner, ser vi små forskjeller i inntekt, men 
 
 ### Sivilstatus og BMI
 
+Til sist skal vi undersøke sammenhengen mellom sivilstatus og kroppsmasseindeks (BMI).
+
 ```{r}
 hoydeNormInc  |> 
   ggplot(
@@ -253,9 +258,8 @@ På den annen side ser det ut til at ugifte kvinner har litt høyere BMI enn de 
 
 ## Konklusjon
 
-\
 Basert på analysen og funnene presentert ovenfor, konkluderer vi med at sivilstatus, kjønn og utdanning spiller alle en betydelig rolle når det gjelder inntektsgapet mellom gifte og ugifte personer.
-Gifte personer, spesielt gifte menn, har en tendens til å ha høyere inntekt enn deres ugifte motparter.
+Gifte personer, spesielt gifte menn, har en tendens til å ha høyere inntekt.
 Dette indikerer at det er en sammenheng mellom å være gift og økt inntekt.
 Kjønn spiller også en rolle, da gifte menn har en markant høyere inntekt enn gifte kvinner, selv om inntektsforskjellene mellom gifte og ugifte kvinner er mindre uttalt.
 
