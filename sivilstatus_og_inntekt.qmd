@@ -95,7 +95,7 @@ hoydeHighInc <- hoyde |>
 Vi skal videre i oppgaven konsentrere oss om datasettet for normal inntekt (hoydeNormInc).
 Dette subsettet inneholder 5123 observasjoner fordelt på 9 variabler: "income", "height", "weight", "age", "afqt", "bmi", "sex", "married" og "edu_fac".
 
-Beskrivende statistikk for datasettet hoydeNormInc
+Beskrivende statistikk for datasettet hoydeNormInc:
 
 ```{r}
 hoydeNormInc |>
@@ -127,7 +127,6 @@ hoydeNormInc  |>
 ```
 
 Ut i fra figur 1 ser det ut til at gifte personer tjener mer enn personer som ikke er gift.
-
 For å få en bedre helhetsforståelse, vil vi videre undersøke om det kan være andre bakenforliggende variabler som påvirker dette resultatet.
 Vi ser først om det er noen forskjell mellom menn og kvinner når det kommer til sivilstatus og inntekt.
 
@@ -156,6 +155,7 @@ Figur 2 viser liten forskjell i inntekt mellom gifte og ugifte kvinner.
 Det ser ut til at kvinner har nokså lik lønn uavhenig av sivilstatus.
 Det kommer derimot tydlig frem fra figuren at gifte menn har en betydelig høyere lønn enn ugifte menn.
 Blant ugifte arbeidtakere er lønnsforskjellen mellom kjønnene minimal.
+Disse funnene stemmer godt overens med studien til @vandenbroucke2018 som ble nevnt i litteraturgjennomgangen.
 
 ### Sivilstatus og utdanning
 
