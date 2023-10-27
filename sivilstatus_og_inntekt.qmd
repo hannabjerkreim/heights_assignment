@@ -162,6 +162,7 @@ Disse funnene stemmer godt overens med studien til @vandenbroucke2018 som ble ne
 ### Sivilstatus og utdanning
 
 Videre skal vi se på sammenhengen mellom sivilstatus og utdanning.
+Variabelen for utdanning er delt inn i "not_hs" (not high school), "not_cc" (not community college) "not_col" (not collage) og "col_plus" (4 years college or more).
 
 ```{r}
 hoydeNormInc  |> 
@@ -185,7 +186,8 @@ hoydeNormInc  |>
 
 Figur 3 viser forskjellene mellom gifte og ugifte kvinner og menn.
 Blant annet kan vi se at det virker som om gifte menn generelt har høyere utdanning enn de som er ugifte.
-Dennen tydlige forskjellen ser man ikke hos kvinnene og det ser ut til at utdanningsnivået er nokså likt, selv om noen flere gifte kvinner har høyskoleutdanning.
+Dette kan være en mulig forklaring på hvorfor gifte menn er den gruppen som tjener mest.
+Dennen forskjellen ser man ikke hos kvinnene og det ser ut til at utdanningsnivået er nokså likt, selv om noen flere gifte kvinner har høyskoleutdanning.
 
 ```{r}
 # Funksjon for å generere plott for gifte og ugifte personer
@@ -265,7 +267,9 @@ Kjønn spiller også en rolle, da gifte menn har en markant høyere inntekt enn 
 
 Utdanning er en annen viktig faktor som påvirker inntektsforskjellene basert på sivilstatus.
 Gifte menn har generelt høyere utdanning enn ugifte menn, mens det ikke er markante utdanningsforskjeller mellom gifte og ugifte kvinner.
-Dette tyder på at utdanning spiller en avgjørende rolle i inntektsforskjellene mellom gifte og ugifte personer.
+Dette tyder på at utdanning spiller en rolle i inntektsforskjellene mellom gifte og ugifte personer.
+En mulig forklaring på hvorfor gifte menn tjener mer enn de andre gruppene kan ligge i at de ofte har høyere utdanning.
+En annen mulig forklaring er at menn med høyere lønn er mer attraktive og har større sannsynlighet for å bli gift, noe som gjør at den gjennomsnittlige gifte mannen tjener mer enn den gjennomsnittlige ugifte mannen.
 
 Når vi ser på kroppsmasseindeks (BMI), finner vi at gifte menn har noe høyere BMI enn ugifte menn, mens ugifte kvinner har litt høyere BMI enn gifte kvinner.
 Imidlertid er forskjellene i BMI relativt små, og det kan være flere faktorer som påvirker disse funnene.
