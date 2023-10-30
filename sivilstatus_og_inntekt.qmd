@@ -25,8 +25,7 @@ library(gridExtra)
 
 ## Innledning
 
-I denne oppgaven skal vi studere forholdet mellom sivilstatus og inntekt.
-Vi skal undersøke om det foreligger forskjeller i inntektsnivået mellom gifte og ugifte personer, og om disse forskjellene varierer basert på kjønn.
+I denne oppgaven skal vi undersøke om det foreligger forskjeller i inntektsnivået mellom gifte og ugifte personer, og om disse forskjellene varierer basert på kjønn.
 Videre vil vi utforske sammenhengen mellom utdanningsnivå og sivilstatus, og om det er ulik premie eller straff for gifte menn og kvinner avhengig av deres utdanningsbakgrunn.
 Vi skal også se nærmere på sammenhengen mellom kroppsmasseindeks (BMI) og sivilstatus.
 Vi skal forsøke å finne svar på dette ved hjelp av datasettet *heights*, som er en del av pakken modelr [@wickham2023].
@@ -94,49 +93,47 @@ hoydeHighInc <- hoyde |>
   filter(income == 343830)
 ```
 
+Vi fordeler datasettet *heights* inn i tre subsets, ett for lav inntekt (hoydeZeroInc), et for "normal" inntekt (hoydeNormInc) og ett for høy inntekt (hoydeHighInc).
 Vi skal videre i oppgaven konsentrere oss om datasettet for normal inntekt (hoydeNormInc).
 Dette subsettet inneholder 5123 observasjoner fordelt på 9 variabler: "income", "height", "weight", "age", "afqt", "bmi", "sex", "married" og "edu_fac".
 
 Beskrivende statistikk for datasettet hoydeNormInc:
 
 ```{r}
+#| echo: false
 hoydeNormInc |>
   st()
 ```
 
 ### Sammenhengen mellom sivilstatus og inntekt
 
-Vi skal først se på sammenhengen mellom sivilstatus og inntekt i et diagram.
+Vi skal først se på sammenhengen mellom sivilstatus og inntekt.
 Dette visualiseres ved bruk av variablene "married" og "income".
 Variabelen "married" er en faktor med to nivå : "married" og "not married".
 "Not married" inkluderer personer som både er singel, separert, skilt eller enke/enkemann, mens "married" inkluderer kun de personene som er gift.
 
 ```{r}
+#| label: fig-married-inc
+#| fig-cap: "Sammenhengen mellom inntekt og sivilstatus (gift/ugift)."
+#| echo: false
 hoydeNormInc  |> 
   ggplot(
   mapping = aes(
     x = married,
     y = income
     )
-  ) + 
-  geom_jitter(
-    size = 1,
-    alpha = 0.35
-    ) +
-   ggtitle(
-     "Figur 1: Sivilstatus og inntekt" 
-    )  
+  ) + geom_boxplot()
 ```
 
-Ut i fra figur 1 ser det ut til at gifte personer tjener mer enn personer som ikke er gift.
+Ut i fra @fig-married-inc ser det ut til at gifte personer tjener mer enn personer som ikke er gift.
 
-::: callout-note
-## Foreslår å benytte hash-pipene label og cap-fig. Da får dere tilgang til kryssreferanser. Foreslår også geom_boxplot() istedenfor geom_jitter(). Gir mer og klarere informasjon til leseren. En facet_wrap() på kjønn får også frem kjønnsforskjellene.
-:::
+For å få en bedre helhetsforståelse, vil vi videre undersøke om det kan være andre bakenforliggende variabler som påvirker dette resultatet.
+Vi ser først om det er noen forskjell mellom menn og kvinner når det kommer til sivilstatus og inntekt.
 
 ```{r}
-#| label: fig-married-inc
-#| fig-cap: "Sammenhengen mellom inntekt og sivilstatus (gift/ugift)."
+#| label: fig-married-inc-2
+#| fig-cap: "Sammenhengen mellom inntekt og sivilstatus (gift/ugift) - fordelt på kjønn."
+#| echo: false
 hoydeNormInc  |> 
   ggplot(
   mapping = aes(
@@ -147,43 +144,12 @@ hoydeNormInc  |>
   facet_wrap(~sex)
 ```
 
-Ut i fra @fig-married-inc ser det ut til at gifte personer tjener mer enn personer som ikke er gift.
-Dette er særlig påfallende for menn.
-
-For å få en bedre helhetsforståelse, vil vi videre undersøke om det kan være andre bakenforliggende variabler som påvirker dette resultatet.
-Vi ser først om det er noen forskjell mellom menn og kvinner når det kommer til sivilstatus og inntekt.
-
-```{r}
-hoydeNormInc  |> 
-  ggplot(
-  mapping = aes(
-    x = married,
-    y = income
-    )
-  ) + 
-  geom_jitter(
-    size = 1,
-    alpha = 0.35
-    ) +
-   facet_wrap(
-     ~ sex
-     ) +
-   ggtitle(
-     "Figur 2: Sivilstatus og inntekt - fordelt på kjønn" 
-    ) 
- 
-```
-
-Figur 2 viser liten forskjell i inntekt mellom gifte og ugifte kvinner.
+@fig-married-inc-2 viser liten forskjell i inntekt mellom gifte og ugifte kvinner.
 Det ser ut til at kvinner har nokså lik lønn uavhenig av sivilstatus.
 Det kommer derimot tydlig frem fra figuren at gifte menn har en betydelig høyere lønn enn ugifte menn.
 Blant ugifte arbeidtakere er lønnsforskjellen mellom kjønnene minimal.
 Det er de gifte mennene som skiller seg ut.
 Disse funnene stemmer godt overens med studien til @vandenbroucke2018 som ble nevnt i litteraturgjennomgangen.
-
-::: callout-note
-## Igjen tror jeg geom_boxplot er bedre egnet. Anbefaler også bruk av quarto sitt kryssreferanse system.
-:::
 
 ### Sivilstatus og utdanning
 
@@ -191,36 +157,9 @@ Videre skal vi se på sammenhengen mellom sivilstatus og utdanning.
 Variabelen for utdanning er delt inn i "not_hs" (not high school), "not_cc" (not community college) "not_col" (not collage) og "col_plus" (4 years college or more).
 
 ```{r}
-hoydeNormInc  |> 
-  ggplot(
-  mapping = aes(
-    x = married,
-    y = edu_fac
-    )
-  ) + 
-  geom_jitter(
-    size = 1,
-    alpha = 0.35
-    ) +
-   facet_wrap(
-     ~ sex
-     ) +
-   ggtitle(
-     "Figur 3: Sivilstatus og utdanning - fordelt på kjønn" 
-    ) 
-```
-
-Figur 3 viser forskjellene mellom gifte og ugifte kvinner og menn.
-Blant annet kan vi se at det virker som om gifte menn generelt har høyere utdanning enn de som er ugifte.
-Dette kan være en mulig forklaring på hvorfor gifte menn er den gruppen som tjener mest.
-Denne forskjellen ser man ikke hos kvinnene og det ser ut til at utdanningsnivået er nokså likt, selv om noen flere gifte kvinner har høyskoleutdanning.
-
-Mitt forslag figur 3.
-Setter opp en facet_grid() mht.
-kjønn og sivilstatus.
-Benytter så geom_bar() for å vise fordelingen mellom de fire utdanningskategoriene.
-
-```{r}
+#| label: fig-edu_fac
+#| fig-cap: "Sammenhengen mellom utdanning og sivilstatus (gift/ugift) - fordelt på kjønn."
+#| echo: false
 hoydeNormInc  |> 
   # Fjerner obs. med NA for education
   filter(!is.na(edu_fac)) |> 
@@ -228,58 +167,18 @@ hoydeNormInc  |>
   geom_bar(mapping = aes(x = edu_fac)) +
    facet_grid(
      married ~ sex
-     ) +
-   ggtitle(
-     "Figur 3: Sivilstatus og utdanning - fordelt på kjønn" 
-    ) 
+     ) 
 ```
 
-```{r}
-# Funksjon for å generere plott for gifte og ugifte personer
-generate_income_plot <- function(data, marital_status) {
-  plot <- ggplot(data = subset(data, married == marital_status), aes(x = factor(edu_fac), y = income)) +
-    geom_jitter(
-      size = 1,
-      alpha = 0.35
-    ) +
-    facet_wrap(. ~ sex, ncol = 2, scales = "free_x") +
-    labs(
-      x = "Utdanning",
-      y = "Inntekt",
-      title = paste("Premie/straff for", marital_status, "mann/kvinne med utdanning (", marital_status, ")")
-    ) +
-    theme(axis.text.x = element_text(angle = 0, hjust = 1, vjust = 0.5)) +
-    theme_minimal()
-  
-  return(plot)
-}
-
-# Opprett plott for gifte personer
-married_plot <- generate_income_plot(hoydeNormInc, "married")
-
-# Opprett plott for ugifte personer
-not_married_plot <- generate_income_plot(hoydeNormInc, "not married")
-
-# Legg til informasjon om sivilstatus i tittelen
-married_plot <- married_plot + labs(title = paste("Figur 4: married"))
-not_married_plot <- not_married_plot + labs(title = paste("not married"))
-
-# Vis begge figurene
-grid.arrange(married_plot, not_married_plot, ncol = 2)
-
-```
-
-Figur 4 gir oss innsikt i hvordan utdanning påvirker inntekten til gifte og ugifte menn og kvinner.
-På x-aksen har vi utdanningsnivået, fra de uten utdannelse til de med en 4-årig høyskoleutdanning.
-For menn ser vi tydelig at utdanning lønner seg, da inntektene øker med høyere utdanning, spesielt blant gifte menn.
-Kvinner tjener generelt mindre enn menn på alle utdanningsnivåer.
-Sammenligner vi gifte og ugifte kvinner, ser vi små forskjeller i inntekt, men det er tydelig at inntekten øker med økt utdanning, uavhengig av sivilstatus.
-
-::: callout-note
-## Igjen vil jeg anbefale geom_boxplot() når dere bruker edu_fac (kategorivariabel). Hvis dere benytter education kan det være aktuelt med geom_point() og geom_smooth() med facet_grid sex og married.
-:::
+@fig-edu_fac viser forskjellene mellom gifte og ugifte kvinner og menn.
+Blant annet kan vi se at det virker som om gifte menn generelt har høyere utdanning enn de som er ugifte.
+Dette kan være en mulig forklaring på hvorfor gifte menn er den gruppen som tjener mest.
+Denne forskjellen ser man ikke hos kvinnene og det ser ut til at utdanningsnivået er nokså likt, selv om noen flere gifte kvinner har høyskoleutdanning.
 
 ```{r}
+#| label: fig-edu_fac-2
+#| fig-cap: "Sammenhengen mellom utdanning og sivilstatus (gift/ugift) - fordelt på kjønn."
+#| echo: false
 hoydeNormInc |> 
   filter(!is.na(edu_fac)) |> 
   ggplot() +
@@ -287,50 +186,33 @@ hoydeNormInc |>
   facet_grid(sex ~married)
 ```
 
+@fig-edu_fac-2 gir oss innsikt i hvordan utdanning påvirker inntekten til gifte og ugifte menn og kvinner.
+Ut i fra denne figuren kan vi lettere undersøke om det er ulik premie eller straff for gifte menn og kvinner avhengig av deres utdanningsbakgrunn.
+På x-aksen har vi utdanningsnivået, fra de uten utdannelse til de med en 4-årig høyskoleutdanning.
+For menn ser vi tydelig at utdanning lønner seg, da inntektene øker med høyere utdanning, spesielt blant gifte menn.
+Kvinner tjener generelt mindre enn menn på alle utdanningsnivåer.
+Sammenligner vi gifte og ugifte kvinner, ser vi små forskjeller i inntekt, men det er tydelig at inntekten øker med økt utdanning, uavhengig av sivilstatus.
+
 ### Sivilstatus og BMI
 
 Til sist skal vi undersøke sammenhengen mellom sivilstatus og kroppsmasseindeks (BMI).
 
 ```{r}
-hoydeNormInc  |> 
-  ggplot(
-  mapping = aes(
-    x = married,
-    y = bmi
-    )
-  ) + 
-  geom_jitter(
-    size = 1,
-    alpha = 0.35
-    ) +
-   facet_wrap(
-     ~ sex
-     ) +
-   ggtitle(
-     "Figur 5: Sivilstatus og BMI - fordelt på kjønn" 
-    ) 
-```
-
-I Figur 4 kan vi se hvordan sivilstatus påvirker BMI hos både menn og kvinner.
-Det ser ut til at gifte menn har litt høyere BMI enn de som er ugifte, men forskjellene er ikke veldig store.
-På den annen side ser det ut til at ugifte kvinner har litt høyere BMI enn de gifte kvinnene, men også her er forskjellene ganske små.
-
-::: callout-note
-## Foreslår geom_bar istedenfor geom_jitter
-:::
-
-```{r}
+#| label: fig-bmi
+#| fig-cap: "Sammenhengen mellom bmi og sivilstatus (gift/ugift) - fordelt på kjønn."
+#| echo: false
 hoydeNormInc  |> 
   filter(!is.na(bmi)) |> 
   ggplot() + 
   geom_boxplot(mapping = aes(x = bmi)) +
   facet_grid(
     married ~ sex
-     ) +
-   ggtitle(
-     "Figur 5: Sivilstatus og BMI - fordelt på kjønn" 
-    ) 
+     ) 
 ```
+
+I @fig-bmi kan vi se hvordan sivilstatus påvirker BMI hos både menn og kvinner.
+Det ser ut til at gifte menn har litt høyere BMI enn de som er ugifte, men forskjellene er ikke veldig store.
+På den annen side ser det ut til at ugifte kvinner har litt høyere BMI enn de gifte kvinnene, men også her er forskjellene ganske små.
 
 ## Konklusjon
 
