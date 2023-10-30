@@ -40,13 +40,9 @@ library(gridExtra)
 -   Sammenhengen mellom sivilstatus (gift/ikke gift) og inntekt.
     -   Forskjell mellom kvinner og menn?
 -   Sammenhengen mellom utdanningsnivå og sivilstatus.
-    -   Varierer premie/straff for gift mann/kvinne med utdannelse?
--   Sammenhengen mellom kroppsmasseindeks (BMI) og sivilstatus.\
-    \
--   Variabelen "married" :
-    -   "married" - innkluderer kun gifte personer.
-    -   "not married" - innkluderer singel, separert, skilt eller
-        enke/enkemann.
+    -   Er det ulik premie/straff for gifte menn og kvinner avhengig av
+        deres utdanningsbakgrunn?
+-   Sammenhengen mellom kroppsmasseindeks (BMI) og sivilstatus.
 
 ## Litteraturgjennomgang
 
@@ -54,9 +50,8 @@ library(gridExtra)
     gjennomsnittlige kvinnelige arbeidstakeren [@vandenbroucke2018].
 -   Lønnsforskjellen er mindre markant tidlig i livet og forskjellen
     vokser med alderen [@vandenbroucke2018].
--   Vandenbroucke og Peake undersøkte hvordan sivilstatus påvirker
-    inntekt, og observerte at gifte menn hadde høyest inntekt
-    [@on-the-economy-blog2020].
+-   Studier av hvordan sivilstatus påvirker inntekt, viser at gifte menn
+    har høyest inntekt [@on-the-economy-blog2020].
 -   Blant ugifte arbeidstakere er lønnsforskjellen minimal, uavhengig av
     kjønn [@vandenbroucke2018].
 -   Gifte og ugifte kvinner har nokså tilsvarende lønn
@@ -67,7 +62,7 @@ library(gridExtra)
 ## Exploratory Data Analysis (EDA)
 
 -   Datasettet *heights*, som er en del av pakken modelr [@wickham2023].
--   Deler datasettet inn i tre subsets:
+-   Tre subsets:
     -   Lav inntekt (hoydeZeroInc)
     -   "Normal" inntekt (hoydeNormInc)
     -   Høy inntekt (hoydeHighInc).
