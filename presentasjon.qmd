@@ -55,7 +55,8 @@ library(gridExtra)
 -   Lønnsforskjellen er mindre markant tidlig i livet og forskjellen
     vokser med alderen [@vandenbroucke2018].
 -   Vandenbroucke og Peake undersøkte hvordan sivilstatus påvirker
-    inntekt, og observerte at gifte menn hadde høyest inntekt .
+    inntekt, og observerte at gifte menn hadde høyest inntekt
+    [@on-the-economy-blog2020].
 -   Blant ugifte arbeidstakere er lønnsforskjellen minimal, uavhengig av
     kjønn [@vandenbroucke2018].
 -   Gifte og ugifte kvinner har nokså tilsvarende lønn
