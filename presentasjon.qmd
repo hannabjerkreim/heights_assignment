@@ -1,0 +1,150 @@
+---
+title: "Er det sammenheng mellom sivilstatus og inntekt?"
+author: "Gruppe 4: Hanna Sundal Bjerkreim & Elvar Solheim"
+format: 
+  revealjs:
+        theme: simple
+        reveal_options:
+        code-fold: show
+        incremental: true
+        smaller: true
+        scrollable: true
+        slide-number: c/t
+editor: visual
+editor_options:
+  markdown:
+    wrap: 72
+    canonical: true
+    chunk_output_type: console
+echo: true
+eval: true
+bibliography: MSB.105.bib
+language: nb.yaml
+nocite: '@*'
+---
+
+```{r}
+#| label: setup
+#| echo: false
+#| output: false
+#| message: false
+library(tidyverse)
+library(vtable)
+library(modelr)
+library(ggplot2)
+library(gridExtra)
+```
+
+## Innledning
+
+-   Sammenhengen mellom sivilstatus (gift/ikke gift) og inntekt.
+    -   Forskjell mellom kvinner og menn?
+-   Sammenhengen mellom utdanningsnivå og sivilstatus.
+    -   Varierer premie/straff for gift mann/kvinne med utdannelse?
+-   Sammenhengen mellom kroppsmasseindeks (BMI) og sivilstatus.\
+    \
+-   Variabelen "married" :
+    -   "married" - innkluderer kun gifte personer.
+    -   "not married" - innkluderer singel, separert, skilt eller
+        enke/enkemann.
+
+## Litteraturgjennomgang
+
+-   Den gjennomsnittlige mannlige arbeidstakeren tjener mer enn den
+    gjennomsnittlige kvinnelige arbeidstakeren [@vandenbroucke2018].
+-   Lønnsforskjellen er mindre markant tidlig i livet og forskjellen
+    vokser med alderen [@vandenbroucke2018].
+-   Vandenbroucke og Peake undersøkte hvordan sivilstatus påvirker
+    inntekt, og observerte at gifte menn hadde høyest inntekt .
+-   Blant ugifte arbeidstakere er lønnsforskjellen minimal, uavhengig av
+    kjønn [@vandenbroucke2018].
+-   Gifte og ugifte kvinner har nokså tilsvarende lønn
+    [@vandenbroucke2018].
+-   Det er tydelig at gifte menn tjener mer enn både gifte og ugifte
+    kvinner, og gifte menn har høyere lønn enn ugifte menn.
+
+## Exploratory Data Analysis (EDA)
+
+-   Datasettet *heights*, som er en del av pakken modelr [@wickham2023].
+-   Deler datasettet inn i tre subsets:
+    -   Lav inntekt (hoydeZeroInc)
+    -   "Normal" inntekt (hoydeNormInc)
+    -   Høy inntekt (hoydeHighInc).
+-   Vi skal videre konsentrere oss om subsettet for normal inntekt
+    (hoydeNormInc).
+
+```{r}
+#| echo: false
+# Leser inn heights datasettet og gir det navnet "hoyde"
+hoyde <- modelr::heights
+
+# Legger til tre variabler i datsettet: "bmi", "married", "edu_fac" 
+hoyde <- hoyde %>% 
+  mutate(
+    bmi = weight * 0.4536/(height * 2.54/100)^2,
+    married = fct_collapse(
+      .f = marital,
+      married = "married",
+      other_level = "not married"
+    ),
+    edu_fac = cut(
+      x = education,
+      breaks = c(0, 12, 14, 16, 21),
+      labels = c("not_hs", "not_cc", "not_col", "col_plus"),
+      right = FALSE
+    )
+  ) |> 
+  # Reorganiserer data slik at de fire faktor-variablerne kommer lengst til høyre
+  select(income:age, education:bmi, everything()) |>
+  # Dropper variablene "marital" og "education"
+  select(-education, -marital)
+
+# Deler hoyde inn i tre subsets
+# Inntekt lik 0
+hoydeZeroInc <- hoyde |> 
+  filter(income == 0)
+# «Normal» inntekt
+hoydeNormInc <- hoyde |> 
+  filter(income > 0 & income < 343830)
+# Høy inntekt
+hoydeHighInc <- hoyde |> 
+  filter(income == 343830)
+```
+
+## Sammenhengen mellom sivilstatus og inntekt
+
+```{r}
+#| label: fig-married-inc
+#| fig-cap: "Sammenhengen mellom inntekt og sivilstatus (gift/ugift)."
+#| echo: false
+hoydeNormInc  |> 
+  ggplot(
+  mapping = aes(
+    x = married,
+    y = income
+    )
+  ) + geom_boxplot()
+```
+
+-   Gifte personer tjener mer enn personer som ikke er gift.
+
+## Er det forskjell mellom kvinner og menn?
+
+```{r}
+#| label: fig-married-inc-2
+#| fig-cap: "Sammenhengen mellom inntekt og sivilstatus (gift/ugift) - fordelt på kjønn."
+#| echo: false
+hoydeNormInc  |> 
+  ggplot(
+  mapping = aes(
+    x = married,
+    y = income
+    )
+  ) + geom_boxplot() +
+  facet_wrap(~sex)
+```
+
+-   Det er de gifte mennene som skiller seg ut.
+-   Funnene stemmer godt overens med litteraturgjennomgangen.
+
+## Referanser
