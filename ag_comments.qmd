@@ -9,7 +9,7 @@ editor: visual
 -   Fin litteraturgjennomgang.
 -   Fin presentasjon av datasettet vha. `st()`.
 -   Jeg foreslår noen endringer til figur 1. **Fikset!**
-    -   Bruk hash-pipene label: og fig-cap: så får dere tilgang til kryssreferanser.
+    -   Bruk hash-pipene label: og fig-cap: så får dere tilgang til kryssreferanser. **Fikset!**
 -   Dere ser ut til å ha blitt forelsket i på geom_jitter(). Jeg tror geom_boxplot() og geom_bar() er mer hensiktsmessig her. **Fikset!**
 -   Har lagt inn forslag til kode for begge.
 -   Ellers et fin lite paper.
