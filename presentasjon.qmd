@@ -148,4 +148,71 @@ hoydeNormInc  |>
 -   Det er de gifte mennene som skiller seg ut.
 -   Funnene stemmer godt overens med litteraturgjennomgangen.
 
+## Sivilstatus og utdanning
+
+```{r}
+#| label: fig-edu_fac
+#| fig-cap: "Sammenhengen mellom utdanning og sivilstatus (gift/ugift) - fordelt på kjønn."
+#| echo: false
+hoydeNormInc  |> 
+  # Fjerner obs. med NA for education
+  filter(!is.na(edu_fac)) |> 
+  ggplot() + 
+  geom_bar(mapping = aes(x = edu_fac)) +
+   facet_grid(
+     married ~ sex
+     ) 
+```
+
+-   Gifte menn har høyere utdanning enn ugifte menn
+-   Gifte kvinner har høyere utdanning enn ugifte kvinner, men mindre
+    forskjell
+
+## Inntekt og utdanning
+
+```{r}
+#| label: fig-edu_fac-2
+#| fig-cap: "Sammenhengen mellom utdanning og sivilstatus (gift/ugift) - fordelt på kjønn."
+#| echo: false
+hoydeNormInc |> 
+  filter(!is.na(edu_fac)) |> 
+  ggplot() +
+  geom_boxplot(mapping = aes(x = edu_fac, y = income)) +
+  facet_grid(sex ~married)
+```
+
+-   Gifte menn tjener betydlige mer enn kvinner generelt og ugifte menn
+-   Lønnen til kvinner er noenlunde lik for både gifte og ugifte, men
+    stiger litt med utdanningsnivå
+
+## Sivilstatus og BMI
+
+```{r}
+#| label: fig-bmi
+#| fig-cap: "Sammenhengen mellom bmi og sivilstatus (gift/ugift) - fordelt på kjønn."
+#| echo: false
+hoydeNormInc  |> 
+  filter(!is.na(bmi)) |> 
+  ggplot() + 
+  geom_boxplot(mapping = aes(x = bmi)) +
+  facet_grid(
+    married ~ sex
+     ) 
+```
+
+-   Gifte menn har noe høyere BMI og det samme gjelder for ugifte
+    kvinner
+-   Forskjellene er for små til å kunne konkludere at dette har noe
+    innvirkning på inntekt
+
+## Konklusjon
+
+-   Gifte menn tjener betydlig mer enn kvinnner generelt og ugifte menn
+-   Basert på analysen konkluderer vi grunnen til dette som:
+    -   Gifte menn har høyest utdanning
+    -   Det er mulig at menn med høy utdanning er mer attraktive
+-   Lite forskjeller mellom ugifte menn og gifte/ugifte kvinner
+-   Det var for lite utslag i BMI til å kunne si at dette har en
+    påvirkning på lønn
+
 ## Referanser
